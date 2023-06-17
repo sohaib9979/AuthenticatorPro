@@ -41,35 +41,33 @@ def build_map(files: list):
             standard.append(filename)
 
     map_path = os.path.join(MAIN_DIR, "AuthenticatorPro.Droid.Shared", "src", "IconMap.cs")
-    file = open(map_path, "w")
+    with open(map_path, "w") as file:
+        file.write("// Copyright (C) 2022 jmh\n")
+        file.write("// SPDX-License-Identifier: GPL-3.0-only\n\n")
+        file.write("using System.Collections.Generic;\n\n")
+        file.write("namespace AuthenticatorPro.Droid.Shared\n")
+        file.write("{\n")
+        file.write("    // GENERATED CLASS, SHOULD NOT BE EDITED DIRECTLY\n")
+        file.write("    public static class IconMap\n")
+        file.write("    {\n")
+        file.write("        public static readonly Dictionary<string, int> Service = new Dictionary<string, int>\n")
+        file.write("        {\n")
 
-    file.write("// Copyright (C) 2022 jmh\n")
-    file.write("// SPDX-License-Identifier: GPL-3.0-only\n\n")
-    file.write("using System.Collections.Generic;\n\n")
-    file.write("namespace AuthenticatorPro.Droid.Shared\n")
-    file.write("{\n")
-    file.write("    // GENERATED CLASS, SHOULD NOT BE EDITED DIRECTLY\n")
-    file.write("    public static class IconMap\n")
-    file.write("    {\n")
-    file.write("        public static readonly Dictionary<string, int> Service = new Dictionary<string, int>\n")
-    file.write("        {\n")
+        for icon in standard:
+            file.write("            { " + f'"{icon}", Resource.Drawable.' + RES_PREFIX + icon + " },\n")
 
-    for icon in standard:
-        file.write("            { " + f'"{icon}", Resource.Drawable.' + RES_PREFIX + icon + " },\n")
+        file.write("        };\n\n")
+        file.write("        public static readonly Dictionary<string, int> ServiceDark = new Dictionary<string, int>\n")
+        file.write("        {\n")
 
-    file.write("        };\n\n")
-    file.write("        public static readonly Dictionary<string, int> ServiceDark = new Dictionary<string, int>\n")
-    file.write("        {\n")
+        for icon in dark:
+            file.write("            { " + '"' + icon[:-len(DARK_SUFFIX)] + '", Resource.Drawable.' + RES_PREFIX + icon + " },\n")
 
-    for icon in dark:
-        file.write("            { " + '"' + icon[:-len(DARK_SUFFIX)] + '", Resource.Drawable.' + RES_PREFIX + icon + " },\n")
+        file.write("        };\n")
+        file.write("    }\n")
+        file.write("}")
 
-    file.write("        };\n")
-    file.write("    }\n")
-    file.write("}")
-
-    file.truncate()
-    file.close()
+        file.truncate()
 
 
 def write_element_tree(tree: ET.ElementTree, output_path: str):
