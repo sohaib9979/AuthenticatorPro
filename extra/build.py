@@ -60,7 +60,7 @@ def adjust_version_code(build_dir: str):
     # add 2 zeroes to version code when building aab
     version_code_path = f"{{{android_namespace}}}versionCode"
     version_code = manifest.getroot().get(version_code_path)
-    manifest.getroot().set(version_code_path, "100" + version_code[1:])
+    manifest.getroot().set(version_code_path, f"100{version_code[1:]}")
 
     manifest.write(manifest_path, xml_declaration=True, encoding="utf-8")
 
